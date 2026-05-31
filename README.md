@@ -26,7 +26,7 @@ Output should include:
 - Each token with its integer ID, one per line
 - The estimated **input** cost at GPT-4o pricing (currently ~$2.50 per 1M input tokens)
 
-Use the `cl100k_base` encoding (`tiktoken.get_encoding("cl100k_base")`), which is what GPT-4o uses.
+Use the `o200k_base` encoding (`tiktoken.get_encoding("o200k_base")`), which is what GPT-4o and GPT-4o-mini actually use.  (The older `cl100k_base` encoding goes with GPT-4 / GPT-3.5-turbo / `text-embedding-3-small` — same library, different vocabularies.)
 
 ### 2. Read from a file
 
@@ -51,6 +51,6 @@ After encoding, decode each token ID back into a string with `encoder.decode([id
 - Add a `--compare path1 path2` mode that tokenizes two files and prints token-count + cost side by side.
 - Build a tiny "prompt diet" mode: read a file, find the **5 longest** tokens (by character length), and suggest the user check whether they really need them.
 - Plot token frequency: which tokens appear most often across a folder of text files?
-- Swap the encoding to `o200k_base` (the newer GPT-4o encoding) and compare counts.
+- Tokenize the same string with both `o200k_base` (GPT-4o) and `cl100k_base` (GPT-4) and compare counts.  Which words split differently?  How does GPT-4o's vocab handle code, URLs, or other languages compared to GPT-4's?
 
 > Stuck? Have a code error? Use the ["4 Before Me"](https://docs.google.com/document/d/1nseOs5oabYBKNHfwJZNAR7GlU0zkZxNagsw63AD7XV0/edit) debugging checklist to help you solve it!
