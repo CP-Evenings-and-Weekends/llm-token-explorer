@@ -4,8 +4,8 @@
 #
 #   import argparse, tiktoken
 #
-#   encoder = tiktoken.get_encoding("cl100k_base")
-#   GPT_4O_INPUT_COST_PER_1M = 2.50
+#   encoder = tiktoken.get_encoding("o200k_base")
+#   INPUT_COST_PER_1M = 0.20   # gpt-5.6-luna; verify at openai.com/api/pricing before trusting it
 #
 #   def explore(text: str) -> None:
 #       ...

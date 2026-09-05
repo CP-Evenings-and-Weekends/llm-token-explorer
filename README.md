@@ -2,7 +2,7 @@
 
 A small CLI assignment to make today's lesson concrete: **everything is tokens, and tokens cost money**.
 
-You'll build a tool that takes some text and shows you what the OpenAI tokenizer actually does to it — how it splits the text, how many tokens it produces, and what that would cost at GPT-4o pricing.
+You'll build a tool that takes some text and shows you what the OpenAI tokenizer actually does to it — how it splits the text, how many tokens it produces, and what that would cost at current OpenAI pricing.
 
 ## Setup
 
@@ -24,9 +24,9 @@ python token_explorer.py "The developer wrote Python code."
 Output should include:
 - The total token count
 - Each token with its integer ID, one per line
-- The estimated **input** cost at GPT-4o pricing (currently ~$2.50 per 1M input tokens)
+- The estimated **input** cost at current pricing for a small OpenAI model — `gpt-5.6-luna` is ~$0.20 per 1M input tokens as of this writing. **Verify the current number at [openai.com/api/pricing](https://openai.com/api/pricing/) before you hardcode it** — prices change every few months, and a cost tool built on a stale constant is worse than none.
 
-Use the `o200k_base` encoding (`tiktoken.get_encoding("o200k_base")`), which is what GPT-4o and GPT-4o-mini actually use.  (The older `cl100k_base` encoding goes with GPT-4 / GPT-3.5-turbo / `text-embedding-3-small` — same library, different vocabularies.)
+Use the `o200k_base` encoding (`tiktoken.get_encoding("o200k_base")`) — the newest public tiktoken vocabulary, used by GPT-4o onward.  (The older `cl100k_base` encoding goes with GPT-4 / GPT-3.5-turbo / `text-embedding-3-small` — same library, different vocabularies.)
 
 ### 2. Read from a file
 
@@ -42,15 +42,15 @@ After encoding, decode each token ID back into a string with `encoder.decode([id
 
 ## Things to think about
 - Why does `"the"` get one token but `"tokenization"` gets split?  Open the [OpenAI Tokenizer Playground](https://platform.openai.com/tokenizer) and check a few words — what kinds of words tend to get split, and what kinds stay whole?
-- At GPT-4o's ~$2.50 per 1M **input** tokens, how much would it cost to send a 5,000-word document?  How about the entire text of *Moby Dick* (~210,000 words)?
-- Output tokens are more expensive than input tokens (~$10 vs ~$2.50 per 1M for GPT-4o).  Why might that be?
-- If you ran the same string through Claude's tokenizer instead of GPT-4o's, would you expect the token count to be exactly the same?  Why or why not?
+- At ~$0.20 per 1M **input** tokens (gpt-5.6-luna), how much would it cost to send a 5,000-word document?  How about the entire text of *Moby Dick* (~210,000 words)?
+- Output tokens are more expensive than input tokens (~$1.20 vs ~$0.20 per 1M for gpt-5.6-luna).  Why might that be?
+- If you ran the same string through Claude's tokenizer instead of OpenAI's, would you expect the token count to be exactly the same?  Why or why not?
 
 ## Stretch
 - Add a `--cost-out N` flag that also calculates the estimated **output** cost assuming the model returns `N` tokens.
 - Add a `--compare path1 path2` mode that tokenizes two files and prints token-count + cost side by side.
 - Build a tiny "prompt diet" mode: read a file, find the **5 longest** tokens (by character length), and suggest the user check whether they really need them.
 - Plot token frequency: which tokens appear most often across a folder of text files?
-- Tokenize the same string with both `o200k_base` (GPT-4o) and `cl100k_base` (GPT-4) and compare counts.  Which words split differently?  How does GPT-4o's vocab handle code, URLs, or other languages compared to GPT-4's?
+- Tokenize the same string with both `o200k_base` (GPT-4o onward) and `cl100k_base` (GPT-4) and compare counts.  Which words split differently?  How does GPT-4o's vocab handle code, URLs, or other languages compared to GPT-4's?
 
 > Stuck? Have a code error? Use the ["4 Before Me"](https://docs.google.com/document/d/1nseOs5oabYBKNHfwJZNAR7GlU0zkZxNagsw63AD7XV0/edit) debugging checklist to help you solve it!
